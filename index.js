@@ -3,12 +3,15 @@ const { joinVoiceChannel } = require("@discordjs/voice");
 
 const client = new Client({ checkUpdate: false });
 
-const config = require(`${process.cwd()}/config.json`);
+require('dotenv').config();
+const token = process.env.TOKEN;
+const guildId = process.env.GUILD_ID;
+const channelId = process.env.CHANNEL_ID;
 
 client.on('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`);
 
-    await joinVC(client, config);
+    await joinVC(client);
 });
 
 client.on('voiceStateUpdate', async (oldState, newState) => {
@@ -20,25 +23,25 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
             // empty
         } else if (!newVoice) {
             if (oldState.member.id !== client.user.id) return;
-            await joinVC(client, config);
+            await joinVC(client);
         } else {
             if (oldState.member.id !== client.user.id) return;
-            if (newVoice !== config.Channel) {
-                await joinVC(client, config);
+            if (newVoice !== ChannelId) {
+                await joinVC(client);
             }
         }
     }
 });
-client.login(config.Token);
+client.login(token);
 // Copyright by sivvv0
-async function joinVC(client, config) {
-    const guild = client.guilds.cache.get(config.Guild);
-    const voiceChannel = guild.channels.cache.get(config.Channel);
+async function joinVC(client) {
+    const guild = client.guilds.cache.get(guildId);
+    const voiceChannel = guild.channels.cache.get(channelId);
     const connection = joinVoiceChannel({
         channelId: voiceChannel.id,
         guildId: guild.id,
         adapterCreator: guild.voiceAdapterCreator,
         selfDeaf: false,
-        selfMute: true
+        selfMute: false
     });
 }
