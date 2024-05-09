@@ -9,7 +9,7 @@ require('dotenv').config();
 const token = process.env.TOKEN;
 const guildId = process.env.GUILD_ID;
 const channelId = process.env.CHANNEL_ID;
-const spamChannelId = process.env.Spam_CHANNEL_ID;
+const spamChannelId = process.env.SPAM_CHANNEL_ID;
 
 const app = express();
 app.get("/", (req, res) => {
