@@ -35,7 +35,7 @@ function getRandomInterval(min, max) {
 function spam() {
     const result = Math.random().toString(36).substring(2, 15);
     _channel.send(result)
-    const randomInterval = getRandomInterval(1500, 5000); // Random interval for spam between 1 second and 5 seconds
+    const randomInterval = getRandomInterval(5000, 10000); // Random interval for spam between 1 second and 5 seconds
     setTimeout(spam, randomInterval);
 }
 spam();
