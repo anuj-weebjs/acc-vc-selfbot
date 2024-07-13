@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 const port = process.env.PORT || 4000;
 var state = {
     isConnected: false,
-    history:{
+    history: {
         guildId: null,
         channelId: null
     }
@@ -25,11 +25,11 @@ app.use(bodyParser.json())
 app.set('view engine', 'ejs');
 
 app.get("/", (req, res) => {
-    res.render('index', {isConnected: state.isConnected, history: state?.history});
+    res.render('index', { isConnected: state.isConnected, history: state?.history });
 });
 
-app.post("/join", (req, res) =>{
-    let {guildId, channelId } = req.body;
+app.post("/join", (req, res) => {
+    let { guildId, channelId } = req.body;
     state.connection = joinVC(client, guildId, channelId);
     state.history.guildId = guildId;
     state.history.channelId = channelId;
@@ -37,8 +37,8 @@ app.post("/join", (req, res) =>{
     res.redirect('/')
 });
 
-app.get("/leave", (req, res) =>{
-    if(!state.connection){
+app.get("/leave", (req, res) => {
+    if (!state.connection) {
         state.isConnected = false;
         res.redirect('/');
         return;
@@ -49,6 +49,11 @@ app.get("/leave", (req, res) =>{
     state.connection = null;
     state.isConnected = false;
     res.redirect('/');
+})
+
+app.get("/login", (req, res) => {
+    client.login(token);
+    res.send("done")
 })
 
 app.listen(port);
