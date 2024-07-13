@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Index</title>
+</head>
+
+<body class="container">
+
+    <main>
+        <form action="/join" method="post">
+            <label for="guildId">Guild Id:</label>
+            <input type="text" id="guildId" name="guildId"><br><br>
+            <label for="channelId">Chennel Id:</label>
+            <input type="text" id="channelId" name="channelId"><br><br>
+            <input type="submit" value="Join">
+        </form>
+
+        <% if (isConnected) { %>
+            <!-- Code to be executed if the condition is true -->
+             <p>CONNECTED</p>
+             <form action="/leave" method="get">
+                <input type="submit" value="Leave"></input>
+             </form>
+          <% } else { %>
+            <!-- Code to be executed if the condition is false -->
+            <p>NOT CONNECTED</p>
+          <% } %>
+
+
+          <% if(history.guildId != null) { %>
+            <p>last guildId: <%= history.guildId %></p>
+            <%} %>
+
+        <% if(history.channelId != null) { %>
+
+            <p>last channelId: <%= history.channelId %></p>
+            <%} %>
+
+    </main>
+
+</body>
+
+</html>
