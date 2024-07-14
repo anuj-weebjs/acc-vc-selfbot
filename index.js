@@ -29,11 +29,20 @@ app.get("/", (req, res) => {
 });
 
 app.post("/join", (req, res) => {
-    let { guildId, channelId } = req.body;
-    state.connection = joinVC(client, guildId, channelId);
+    let { guildId, channelId, mute, deaf } = req.body;
+    let _deaf = false, _mute = false;
+    if(mute){
+        _mute = true;
+    }
+    if(deaf){
+        _deaf = true;
+    }
+
+    state.connection = joinVC(client, guildId, channelId, _mute, _deaf);
     state.history.guildId = guildId;
     state.history.channelId = channelId;
     state.isConnected = true;
+
     res.redirect('/')
 });
 
@@ -80,15 +89,15 @@ async function spam() {
     setTimeout(spam, randomInterval);
 }
 
-function joinVC(client, guildId, channelId) {
+function joinVC(client, guildId, channelId, mute, deaf) {
     const guild = client.guilds.cache.get(guildId);
     const voiceChannel = guild.channels.cache.get(channelId);
     const connection = joinVoiceChannel({
         channelId: voiceChannel.id,
         guildId: guild.id,
         adapterCreator: guild.voiceAdapterCreator,
-        selfDeaf: false,
-        selfMute: false
+        selfDeaf: deaf,
+        selfMute: mute
     });
     return connection;
 }
