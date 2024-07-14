@@ -8,30 +8,30 @@
 <body class="container">
 
   <main>
-      
-      <% if (isConnected) { %>
-        <!-- Code to be executed if the condition is true -->
-        <p>CONNECTED</p>
-        <form action="/leave" method="get">
-            <input type="submit" value="Leave"></input>
-        </form>
-        <% } else { %>
-            <!-- Code to be executed if the condition is false -->
-            <form action="/join" method="post">
-              <label for="guildId">Guild Id:</label>
-              <input type="text" id="guildId" name="guildId"><br><br>
-              <label for="channelId">Chennel Id:</label>
-              <input type="text" id="channelId" name="channelId"><br><br>
-        
-              <input type="checkbox" id="mute" name="mute" value="true">
-              <label for="mute">mute</label><br>
-        
-              <input type="checkbox" id="deaf" name="deaf" value="true">
-              <label for="deaf">deaf</label><br>
-        
-              <input type="submit" value="Join">
-            </form>
-            <p>NOT CONNECTED</p>
+
+    <% if (isConnected) { %>
+    <!-- Code to be executed if the condition is true -->
+    <p>CONNECTED</p>
+    <form action="/leave" method="get">
+      <input type="submit" value="Leave"></input>
+    </form>
+    <% } else { %>
+    <!-- Code to be executed if the condition is false -->
+    <form action="/join" method="post">
+      <label for="guildId">Guild Id:</label>
+      <input type="text" id="guildId" name="guildId"><br><br>
+      <label for="channelId">Chennel Id:</label>
+      <input type="text" id="channelId" name="channelId"><br><br>
+
+      <input type="checkbox" id="mute" name="mute" value="true">
+      <label for="mute">mute</label><br>
+
+      <input type="checkbox" id="deaf" name="deaf" value="true">
+      <label for="deaf">deaf</label><br>
+
+      <input type="submit" value="Join">
+    </form>
+    <p>NOT CONNECTED</p>
     <% } %>
 
 
@@ -45,6 +45,25 @@
     <p>last channelId: <%= history.channelId %>
     </p>
     <%} %>
+
+    <% if(client.user){ %>
+    <p>Current Status: <b><%= client.user.presence.status %> </b></p>
+    <form action="/changestatus" method="post">
+      <input type="radio" id="online" name="status" value="online">
+      <label for="online">Online</label><br>
+      
+      <input type="radio" id="idle" name="status" value="idle">
+      <label for="idle">Idle</label><br>
+
+      <input type="radio" id="dnd" name="status" value="dnd">
+      <label for="dnd">dnd</label><br>
+
+      <input type="radio" id="offline" name="status" value="offline">
+      <label for="offline">Offline</label><br>
+
+      <input type="submit" value="Change">
+    </form>
+    <% } %>
 
   </main>
 

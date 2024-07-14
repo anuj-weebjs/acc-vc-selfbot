@@ -1,4 +1,4 @@
-const { Client } = require('discord.js-selfbot-v13');
+const { Client, ActivityType } = require('discord.js-selfbot-v13');
 const { joinVoiceChannel } = require("@discordjs/voice");
 const express = require('express');
 var bodyParser = require('body-parser');
@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 app.set('view engine', 'ejs');
 
 app.get("/", (req, res) => {
-    res.render('index', { isConnected: state.isConnected, history: state?.history });
+    res.render('index', { isConnected: state.isConnected, history: state?.history, client: client });
 });
 
 app.post("/join", (req, res) => {
@@ -58,11 +58,17 @@ app.get("/leave", (req, res) => {
     state.connection = null;
     state.isConnected = false;
     res.redirect('/');
-})
+});
 
 app.get("/login", (req, res) => {
     client.login(token);
     res.send("done")
+});
+
+app.post("/changestatus", (req,res) =>{
+    let {status } = req.body;
+    changeStatus(client, status);
+    res.redirect('/');
 })
 
 app.listen(port);
@@ -100,5 +106,11 @@ function joinVC(client, guildId, channelId, mute, deaf) {
         selfMute: mute
     });
     return connection;
+}
+
+function changeStatus(client, status){
+    client.user.setPresence({ 
+        status: status
+    });
 }
 
